@@ -2,6 +2,7 @@ package com.ShopMinds.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -9,15 +10,16 @@ import java.math.BigDecimal;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Table(name="products")
 
-public class Products {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int product_id;
     @ManyToOne
     @JoinColumn(name = "seller_id", nullable = false)
-    private Users seller;
+    private User seller;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false,length = 1000)

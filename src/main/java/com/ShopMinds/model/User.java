@@ -6,12 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="users")
-public class Users {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int user_id;
@@ -19,18 +20,23 @@ public class Users {
     private String name;
     @Column(unique = true, nullable = false)
     private String email;
-   @Column(nullable = false)
+    @Column(nullable = false)
     private String password;
-   @Column(nullable = false)
+    @Column(nullable = false)
     private String phone;
-   @Enumerated(EnumType.STRING)
-   @Column(nullable = false)
-    private String role;
-   @Temporal(TemporalType.TIMESTAMP)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserRole role;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date created_at;
-    private String profileImageName;
-    private String profileImageType;
-    @Lob
-    @Column(columnDefinition = "BYTEA")
-    private byte[] profileimageData;
+//    private String profileImageName;
+//    private String profileImageType;
+//    @Lob
+//    @Column(columnDefinition = "BYTEA")
+//    private byte[] profileimageData;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_user_id")
+    private CartItem cartItem;
 }
+

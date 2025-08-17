@@ -1,4 +1,8 @@
 package com.ShopMinds.repository;
 
-public interface UserRepository {
+import com.ShopMinds.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Integer> {
+
 }
