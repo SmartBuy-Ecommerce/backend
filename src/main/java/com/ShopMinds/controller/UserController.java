@@ -16,13 +16,6 @@ public class UserController {
     private UserService userService;
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody UserDto userDto) {
-//        System.out.println("Received signup request with data:");
-//        System.out.println("Name: " + userDto.getName());
-//        System.out.println("Email: " + userDto.getEmail());
-//        System.out.println("Phone: " + userDto.getPhone());
-//        System.out.println("Password: " + userDto.getPassword());
-//        System.out.println("Role: " + userDto.getRole());
-
         try {
             User user = userService.signup(userDto);
             return ResponseEntity.ok(user);
