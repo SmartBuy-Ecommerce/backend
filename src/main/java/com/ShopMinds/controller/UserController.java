@@ -24,20 +24,14 @@ public class UserController {
         }
     }
 
-    @PostMapping("/auth/login")
-    public ResponseEntity<String> mockLogin() {
-        return ResponseEntity.ok("Backend connected! (Login API works)");
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password) {
+        try {
+            User user = userService.login(email,password);
+            return ResponseEntity.ok(user);
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
-
-//    @GetMapping("/login")
-//    public ResponseEntity<?>login(@RequestBody UserDto userDto) {
-//        try{
-//            User user = userService.login(userDto);
-//            return ResponseEntity.ok(user);
-//        }
-//        catch (Exception e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        }
-//    }
-
 }

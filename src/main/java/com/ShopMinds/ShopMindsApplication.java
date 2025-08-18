@@ -14,16 +14,16 @@ public class ShopMindsApplication {
 	}
 
 	// Add this method to enable CORS globally
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")  // Allow all endpoints
-						.allowedOrigins("http://localhost:5173")  // React's default port
-						.allowedMethods("GET", "POST", "PUT", "DELETE")
-						.allowCredentials(true);
-			}
-		};
-	}
+//	@Bean
+//	public WebMvcConfigurer corsConfigurer() {
+//		return new WebMvcConfigurer() {
+//			@Override
+//			public void addCorsMappings(CorsRegistry registry) {
+//				registry.addMapping("/**")  // Allow all endpoints
+//						.allowedOrigins("http://localhost:5173")  // React's default port
+//						.allowedMethods("GET", "POST", "PUT", "DELETE")
+//						.allowCredentials(true);
+//			}
+//		};
+//	}
 }
