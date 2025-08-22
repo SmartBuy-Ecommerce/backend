@@ -1,15 +1,13 @@
 package com.ShopMinds.service;
 
-
 import com.ShopMinds.dto.UserDto;
+import com.ShopMinds.exception.UserAlreadyExistsException; // Make sure to import the exception
 import com.ShopMinds.model.User;
 import com.ShopMinds.model.UserRole;
 import com.ShopMinds.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.swing.*;
 
 @Service
 public class UserService {
@@ -18,10 +16,16 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Autowired
     private EmailService emailService;
 
-    public User signup(UserDto userDto){
+    public User signup(UserDto userDto) {
+        // Check if email already exists
+        if (userRepository.existsByEmail(userDto.getEmail())) {
+            throw new UserAlreadyExistsException("Email is already registered: " + userDto.getEmail());
+        }
+
         User user = new User();
         user.setName(userDto.getName());
         user.setPassword(passwordEncoder.encode(userDto.getPassword())); // hashed
@@ -35,21 +39,18 @@ public class UserService {
         return userRepository.save(user);
     }
 
-
-
-
-    public User login(String email, String password) {
+    public User login(UserDto userDto) {
         // Find user by email
-        User user = userRepository.findByEmail(email)
+
+        User user = userRepository.findByEmail(userDto.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Check password (⚠️ in production use password hashing like BCrypt)
-        if (!user.getPassword().equals(password)) {
+        // Check password (using PasswordEncoder for security)
+        if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid password");
         }
 
         // If everything is correct, return the user
         return user;
     }
-
 }

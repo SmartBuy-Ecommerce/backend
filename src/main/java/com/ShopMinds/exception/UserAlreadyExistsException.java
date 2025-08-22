@@ -1,16 +1,16 @@
 package com.ShopMinds.exception;
 
-public class GlobalExceptionHandler extends RuntimeException {
+public class UserAlreadyExistsException extends RuntimeException {
 
-    public GlobalExceptionHandler() {
+    public UserAlreadyExistsException() {
         super(); // Default constructor
     }
 
-    public GlobalExceptionHandler(String message) {
+    public UserAlreadyExistsException(String message) {
         super(message); // Constructor with custom message
     }
 
-    public GlobalExceptionHandler(String message, Throwable cause) {
+    public UserAlreadyExistsException(String message, Throwable cause) {
         super(message, cause); // Constructor with message and root cause
     }
 }

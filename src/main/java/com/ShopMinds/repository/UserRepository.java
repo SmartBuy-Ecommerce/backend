@@ -10,4 +10,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     // Custom finder by email
     Optional<User> findByEmail(String email);
 
+    //Check if an email exists(return booleans)
+    Boolean existsByEmail(String email);
+
 }
