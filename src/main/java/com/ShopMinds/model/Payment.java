@@ -7,27 +7,26 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
-
-@Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Entity
 @Table(name = "payments")
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int payment_id;
+    private Long paymentId;
+
+    private Double amount;
+    private String method;
+    private String status;
+    private LocalDateTime createdAt;
+
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "order_id")
     private Order order;
-    @Column(nullable = false)
-    private BigDecimal amount;
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private PaymentStatus payement_status;
-    @Column(nullable = false)
-    private String payement_method;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created_at;
+
+    // Getters and setters
 }

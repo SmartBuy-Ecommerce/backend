@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -57,12 +59,55 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody UserDto userDto) {
         try {
             User user = userService.login(userDto);
-            // No need to check password again here!
             String token = JwtUtill.generateToken(user.getEmail());
-            return ResponseEntity.ok(token);
-        }
-        catch (RuntimeException e){
+
+            // Create response object with token and user data
+            Map<String, Object> response = new HashMap<>();
+            response.put("token", token);
+            response.put("user", Map.of(
+                    "email", user.getEmail(),
+                    "role", user.getRole(),
+                    "name", user.getName()
+            ));
+
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/getAllUsers")
+    public ResponseEntity<?> getAllUsers() {
+        try {
+            List<User> users = userService.getAllUsers();
+            return ResponseEntity.ok(users);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/getUserById")
+    public ResponseEntity<?> getUserById(@RequestParam("id") int id) {
+        try{
+            User user = userService.getUserById(id);
+            return ResponseEntity.ok(user);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @PatchMapping("/updateUserStatus")
+    public ResponseEntity<?> updateUserStatus(
+            @RequestParam("id") int id,
+            @RequestParam("status")  String status) {
+        try {
+            User updatedUser = userService.updateUserStatus(id, status);
+            return ResponseEntity.ok(updatedUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating user status");
         }
     }
 }

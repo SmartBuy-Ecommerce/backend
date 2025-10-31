@@ -7,25 +7,26 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
-
-@SuppressWarnings("ALL")
-@Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@Table(name = "orderItems")
+@Entity
+@Table(name = "order_items")
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int orderItemId;
+    private Long orderItemId;
+
+    private Integer quantity;
+    private Double price;
+
     @ManyToOne
-    @JoinColumn(name = "order_id",nullable = false)
+    @JoinColumn(name = "order_id")
     private Order order;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id",nullable = false)
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
-    @Column(nullable = false)
-    private int quantity;
-    @Column(nullable = false)
-    private BigDecimal totalPrice;
+
+    // Getters and setters
 }

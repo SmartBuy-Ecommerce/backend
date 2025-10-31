@@ -5,38 +5,25 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "users")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name="users")
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int user_id;
-    @Column(nullable = false)
+    private Long userId;
+
     private String name;
-    @Column(unique = true, nullable = false)
     private String email;
-    @Column(nullable = false)
     private String password;
-    @Column(nullable = false)
-    private String phone;
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private UserRole role;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created_at;
-//    private String profileImageName;
-//    private String profileImageType;
-//    @Lob
-//    @Column(columnDefinition = "BYTEA")
-//    private byte[] profileimageData;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_user_id")
-    private CartItem cartItem;
+    private String role; // BUYER, SELLER, ADMIN
+    private String profileImage;
+    private LocalDateTime createdAt;
+    private BigDecimal phone;
+    private String Status;
 }
-

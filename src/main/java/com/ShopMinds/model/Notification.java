@@ -5,23 +5,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
-
-@Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@Table(name = "notification")
+@Entity
+@Table(name = "notifications")
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int notification_id;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id",nullable = false)
+    private Long notificationId;
+
+    private String message;
+    private Boolean isRead;
+    private LocalDateTime createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created_at;
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private NotificationStatus is_read;
 }

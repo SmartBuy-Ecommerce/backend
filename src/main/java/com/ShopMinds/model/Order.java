@@ -6,28 +6,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-
-@Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Entity
 @Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int order_id;
+    private Long orderId;
+
+    private Double totalPrice;
+    private String status;
+    private LocalDateTime createdAt;
+
     @ManyToOne
-    @JoinColumn(name = "user_id",nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
-    @Column(nullable = false)
-    private BigDecimal total_amount;
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Status status;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created_at;
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> items;
+
+    // Getters and setters
 }
