@@ -17,7 +17,6 @@ public class ContactService {
         newContact.setEmail(contact.getEmail());
         newContact.setSubject(contact.getSubject());
         newContact.setMessage(contact.getMessage());
-
         emailService.contactusEmail(contact.getName(), contact.getEmail(), contact.getMessage());
         return contactRepository.save(newContact);
     }

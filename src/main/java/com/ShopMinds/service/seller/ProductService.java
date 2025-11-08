@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 @Service
 public class ProductService {
@@ -22,8 +23,11 @@ public class ProductService {
         Product product = new Product();
         product.setName(productDto.getName());
         product.setPrice(productDto.getPrice());
-        product.setCreatedAt(product.getCreatedAt());
+        product.setCreatedAt(LocalDateTime.now());
+        product.setCategory(productDto.getCategory());
+        product.setImageUrl(productDto.getImageUrl());
         product.setDescription(productDto.getDescription());
+        product.setSeller(product.getSeller());
         product.setQuantity(productDto.getQuantity());
         return productRepository.save(product);
     }

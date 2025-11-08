@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,16 +22,19 @@ public class Product {
     private String description;
     private Double price;
     private Integer quantity;
+    private String category;
+    // FIX: Change this to setImageUrl (not getImageUrl)
+    @Setter
     private String imageUrl;
-    private String tags;
-    private Double ecoScore;
     private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
     private User seller;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    // Add this method to set creation timestamp
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
 }
