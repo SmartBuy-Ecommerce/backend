@@ -22,7 +22,7 @@ public class ProductService {
         Product product = new Product();
         product.setName(productDto.getName());
         product.setPrice(productDto.getPrice());
-//        product.setCategory(productDto.getCategory());
+        product.setCreatedAt(product.getCreatedAt());
         product.setDescription(productDto.getDescription());
         product.setQuantity(productDto.getQuantity());
         return productRepository.save(product);

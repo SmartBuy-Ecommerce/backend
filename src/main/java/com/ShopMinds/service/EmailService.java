@@ -19,4 +19,19 @@ public class EmailService {
         message.setText("Hello " + userName + ",\n\nYour account has been created successfully! 🎉\n\nWelcome aboard!");
         mailSender.send(message);
     }
+
+
+    // Fix the parameter order - it should match how you call it
+    public void contactusEmail(String name, String fromEmail, String userMessage) {
+        SimpleMailMessage contact = new SimpleMailMessage();
+
+        contact.setFrom(fromEmail); // This should be a valid email from your properties
+        contact.setTo("shimhan8531@gmail.com");
+        contact.setSubject("New Contact Message from: " + name);
+        contact.setText("Name: " + name +
+                "\nEmail: " + fromEmail +
+                "\n\nMessage:\n" + userMessage);
+
+        mailSender.send(contact);
+    }
 }

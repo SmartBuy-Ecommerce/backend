@@ -28,4 +28,16 @@ public class EmailController {
 
         return ResponseEntity.ok("Welcome email sent successfully to " + to);
     }
+
+    @PostMapping("/sendContactus")
+    public ResponseEntity<String> sendContactus(@RequestBody Map<String, String> request) {
+        String name = request.get("name");
+        String email = request.get("email");
+        String message = request.get("message");
+        if (name == null || email == null || message == null) {
+            return ResponseEntity.badRequest().body("Missing 'name' or 'email' in request body");
+        }
+        emailService.contactusEmail(name, email, message);
+        return ResponseEntity.ok("Contact us email sent successfully");
+    }
 }

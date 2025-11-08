@@ -102,12 +102,33 @@ public class UserController {
             @RequestParam("id") int id,
             @RequestParam("status")  String status) {
         try {
-            User updatedUser = userService.updateUserStatus(id, status);
-            return ResponseEntity.ok(updatedUser);
+            User updatedUserStatus = userService.updateUserStatus(id, status);
+            return ResponseEntity.ok(updatedUserStatus);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating user status");
         }
     }
+
+    @PutMapping("/updateUser")
+    public ResponseEntity<?> updateUser(@RequestParam("id") int id, @RequestBody UserDto userDto) {
+        try {
+            User updatedUser = userService.updateUser(id, userDto);
+            return ResponseEntity.ok(updatedUser);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/deleteUser")
+    public ResponseEntity<?> deleteUser(@RequestParam("id") int id) {
+        try {
+            userService.deleteUser(id);
+            return ResponseEntity.ok("User deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
 }

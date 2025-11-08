@@ -33,8 +33,8 @@ public class ProductsController {
         }
     }
 
-    @PatchMapping("/updateProduct/{id}")
-    public ResponseEntity<?> updateProduct(@PathVariable int id, ProductDto productDto){
+    @PutMapping("/updateProduct")
+    public ResponseEntity<?> updateProduct(@RequestParam("id") int id,@RequestBody ProductDto productDto){
         try{
             Product product = productService.updateProduct(id,productDto);
             return ResponseEntity.ok(product);
@@ -43,8 +43,8 @@ public class ProductsController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
-    @DeleteMapping("/deleteProduct/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable int id){
+    @DeleteMapping("/deleteProduct")
+    public ResponseEntity<?> deleteProduct(@RequestParam("id") int id){
         return productService.deleteProduct(id);
     }
 

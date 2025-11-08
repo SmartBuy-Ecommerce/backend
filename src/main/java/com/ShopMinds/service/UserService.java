@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static com.ShopMinds.model.Status.APPROVED;
 import static com.ShopMinds.model.Status.PENDING;
@@ -48,11 +50,13 @@ public class UserService {
             throw new UserAlreadyExistsException("Email is already registered: " + userDto.getEmail());
         }
 
+
         User user = new User();
         user.setName(userDto.getName());
         user.setPassword(passwordEncoder.encode(userDto.getPassword())); // hashed
         user.setEmail(userDto.getEmail());
         user.setPhone(userDto.getPhone());
+        user.setCreatedAt(LocalDateTime.now());
 
         String role = userDto.getRole() != null ? userDto.getRole() : String.valueOf(APPROVED);
         user.setRole(role);
@@ -63,12 +67,6 @@ public class UserService {
         else if(String.valueOf(SELLER).equals(role)) {
             user.setStatus(String.valueOf(PENDING));
         }
-//        if(user.getRole() == String.valueOf(BUYER)) {
-//            user.setStatus(String.valueOf(APPROVED));
-//        }
-//        else{
-//            user.setStatus(String.valueOf(PENDING)  );
-//        }
 
         emailService.sendWelcomeEmail(userDto.getEmail(), userDto.getName());
         return userRepository.save(user);
@@ -92,4 +90,23 @@ public class UserService {
         // Save the updated user
         return userRepository.save(user);
     }
+
+    public User updateUser(int id, UserDto userDto) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            throw new RuntimeException("User not found with id: " + id);
+        }
+        User user = optionalUser.get();
+        user.setName(userDto.getName());
+        user.setPhone(userDto.getPhone());
+        user.setEmail(userDto.getEmail());
+        return userRepository.save(user);
+    }
+
+    public void deleteUser(int id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
+        userRepository.delete(user);
+    }
+
 }
