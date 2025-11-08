@@ -41,9 +41,12 @@ public class ProductService {
         if(productDto.getPrice() != null) {
             existingProduct.setPrice(productDto.getPrice());
         }
-//        if(productDto.getCategory() != null) {
-//            existingProduct.setCategory(productDto.getCategory());
-//        }
+        if(productDto.getImageUrl() != null) {
+            existingProduct.setImageUrl(productDto.getImageUrl());
+        }
+        if(productDto.getCategory() != null) {
+            existingProduct.setCategory(productDto.getCategory());
+        }
         if(productDto.getDescription() != null) {
             existingProduct.setDescription(productDto.getDescription());
         }
