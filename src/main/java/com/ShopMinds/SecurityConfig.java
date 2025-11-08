@@ -22,8 +22,12 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/email/**").permitAll()// allow login & signup
                         .requestMatchers("/api/product/**").permitAll()
+                        .requestMatchers("/api/product/deleteProduct/").permitAll()
+                        .requestMatchers("/api/product/updateProduct/").permitAll()
                         .requestMatchers("/api/auth/getUserById").permitAll()
                         .requestMatchers("/api/auth/updateUserStatus").permitAll()
+                        .requestMatchers("/api/auth/deleteUser").permitAll()
+                        .requestMatchers("api/contact/contactus").permitAll()
                         .anyRequest().authenticated()                   // protect everything else
                 );
 
